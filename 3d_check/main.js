@@ -18,7 +18,7 @@ const player = new THREE.Mesh(playerGeo, playerMat);
 scene.add(player);
 player.position.z = -5;
 
-// Obstacle
+// Obstacles
 const obstacles = [];
 function spawnObstacle() {
   const geo = new THREE.BoxGeometry(1, 1, 1);
@@ -43,9 +43,11 @@ document.addEventListener('keyup', e => {
 camera.position.y = 5;
 camera.lookAt(0, 0, -5);
 
-// Game Loop
 let lastSpawn = 0;
+let gameOver = false;
+
 function animate(time) {
+  if (gameOver) return; // Stop the game loop
   requestAnimationFrame(animate);
   const t = time * 0.001;
 
@@ -54,24 +56,32 @@ function animate(time) {
     lastSpawn = t;
   }
 
-  // Move player
+  // Player Movement
   if (moveLeft) player.position.x -= 0.1;
   if (moveRight) player.position.x += 0.1;
 
-  // Move obstacles
-  obstacles.forEach(o => {
+  // Move Obstacles & Check Collision
+  for (let i = 0; i < obstacles.length; i++) {
+    const o = obstacles[i];
     o.position.y -= 0.1;
+
     if (o.position.y < -5) {
       scene.remove(o);
+      obstacles.splice(i, 1);
+      i--;
+      continue;
     }
 
-    // Collision detection
-    if (Math.abs(o.position.x - player.position.x) < 1 &&
-        Math.abs(o.position.y - player.position.y) < 1) {
+    const dx = Math.abs(o.position.x - player.position.x);
+    const dy = Math.abs(o.position.y - player.position.y);
+
+    if (dx < 1 && dy < 1) {
+      gameOver = true;
       alert('Game Over!');
       window.location.reload();
+      return;
     }
-  });
+  }
 
   renderer.render(scene, camera);
 }
