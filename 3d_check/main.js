@@ -77,7 +77,7 @@ function animate(time) {
 
     if (dx < 1 && dy < 1) {
       gameOver = true;
-      alert('Game Over!');
+    //   alert('Game Over!');
       window.location.reload();
       return;
     }
