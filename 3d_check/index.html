@@ -46,6 +46,7 @@
 
   <script type="module">
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
     const canvas = document.querySelector('#gameCanvas');
     const scene = new THREE.Scene();
@@ -58,12 +59,19 @@
     light.position.set(5, 10, 7.5);
     scene.add(light);
 
-    // Player
-    const playerGeo = new THREE.BoxGeometry(1, 1, 1);
-    const playerMat = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-    const player = new THREE.Mesh(playerGeo, playerMat);
+    // Player Placeholder (will be replaced by model)
+    let player = new THREE.Object3D();
     player.position.z = -5;
     scene.add(player);
+
+    // Load GLTF model
+    const loader = new GLTFLoader();
+    loader.load('scene.gltf', gltf => {
+      const model = gltf.scene;
+      model.scale.set(1, 1, 1); // adjust size if needed
+      model.position.set(0, 0, 0);
+      player.add(model);
+    });
 
     // Obstacles
     const obstacles = [];
