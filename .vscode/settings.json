@@ -1,0 +1,18 @@
+{
+  "editor.suggest.enabled": false,
+  "editor.quickSuggestions": false,
+  "editor.suggestOnTriggerCharacters": false,
+  "editor.autoClosingBrackets": "never",
+  "editor.autoClosingQuotes": "never",
+  "editor.autoSurround": "never",
+  "github.copilot.enable": {
+    "*": false
+  },
+  "extensions.ignoreRecommendations": true,
+  "[typescript]": {
+    "editor.defaultFormatter": null
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": null
+  }
+}
